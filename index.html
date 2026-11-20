@@ -1,6 +1,7 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
 <head>
+  <!-- Viewport & Character Encoding for Cross-Device Responsiveness -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Swaadly — AI Poster &amp; Flavour Showcase</title>
@@ -9,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
     rel="stylesheet"
   />
 
@@ -24,26 +25,27 @@
             display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif']
           },
           colors: {
-            sunlit: {
-              50: '#fffdf8',
-              100: '#fff7e6',
-              200: '#ffebc2'
+            linen: {
+              50: '#fffdf9',
+              100: '#fff8ec',
+              200: '#ffefd4'
             },
             honey: {
+              300: '#ffd066',
               400: '#f5b82e',
               500: '#e59a16',
-              600: '#c47908'
+              600: '#c27707'
             },
-            ink: {
+            cocoa: {
               950: '#1f120b',
               900: '#2d1a10',
-              800: '#4a2d1d',
-              700: '#6b4733'
+              800: '#4a2c1c',
+              700: '#694430'
             }
           },
           boxShadow: {
-            soft: '0 10px 28px -8px rgba(31, 18, 11, 0.08), 0 4px 10px -4px rgba(31, 18, 11, 0.04)',
-            elevated: '0 20px 44px -12px rgba(31, 18, 11, 0.14), 0 8px 18px -6px rgba(31, 18, 11, 0.06)'
+            warm: '0 10px 28px -8px rgba(31, 18, 11, 0.08), 0 4px 10px -4px rgba(31, 18, 11, 0.04)',
+            lift: '0 22px 48px -14px rgba(31, 18, 11, 0.14), 0 8px 18px -6px rgba(31, 18, 11, 0.06)'
           }
         }
       }
@@ -52,7 +54,7 @@
 
   <style>
     :root {
-      --mood-tint: rgba(245, 184, 46, 0.14);
+      --ambient-glow: rgba(245, 184, 46, 0.16);
     }
 
     html {
@@ -61,7 +63,7 @@
 
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background-color: #fffdf8;
+      background-color: #fffdf9;
       color: #1f120b;
       overflow-x: hidden;
     }
@@ -71,30 +73,30 @@
       letter-spacing: -0.025em;
     }
 
-    /* Ambient sunlit backdrop shift linked to active mood */
-    .ambient-sunlit-bg {
+    /* Warm sunlit linen & honey-amber backdrop */
+    .sunlit-canvas {
       background-image:
-        radial-gradient(circle at 12% 10%, var(--mood-tint), transparent 46%),
-        radial-gradient(circle at 88% 18%, rgba(229, 154, 22, 0.11), transparent 42%),
-        linear-gradient(180deg, #fffdf8 0%, #fff8ea 52%, #fffdf8 100%);
+        radial-gradient(circle at 10% 8%, var(--ambient-glow), transparent 45%),
+        radial-gradient(circle at 90% 16%, rgba(229, 154, 22, 0.12), transparent 42%),
+        linear-gradient(180deg, #fffdf9 0%, #fff8ec 50%, #fffdf9 100%);
       transition: background-image 0.45s ease;
     }
 
-    /* Tactile card hover */
-    .tactile-card {
+    /* Tactile interactive card elevation */
+    .card-surface {
       transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease, border-color 0.28s ease;
     }
 
     @media (hover: hover) {
-      .tactile-card:hover {
+      .card-surface:hover {
         transform: translateY(-4px);
-        box-shadow: 0 20px 40px -12px rgba(31, 18, 11, 0.14), 0 6px 14px -4px rgba(31, 18, 11, 0.06);
-        border-color: rgba(196, 121, 8, 0.45);
+        box-shadow: 0 22px 44px -14px rgba(31, 18, 11, 0.14), 0 6px 14px -4px rgba(31, 18, 11, 0.06);
+        border-color: rgba(194, 119, 7, 0.45);
       }
     }
 
-    /* Subtle floating motion for hero visual accent */
-    @keyframes gentleFloat {
+    /* Gentle floating motion for featured hero preview */
+    @keyframes floatSlow {
       0%, 100% {
         transform: translateY(0px);
       }
@@ -103,203 +105,222 @@
       }
     }
 
-    .animate-gentle-float {
-      animation: gentleFloat 4.8s ease-in-out infinite;
+    .animate-float-slow {
+      animation: floatSlow 5s ease-in-out infinite;
     }
 
-    /* Scroll reveal transition */
-    .reveal-on-scroll {
+    /* Smooth scroll reveal states */
+    .reveal-item {
       opacity: 0;
       transform: translateY(18px);
       transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .reveal-on-scroll.is-visible {
+    .reveal-item.is-visible {
       opacity: 1;
       transform: translateY(0);
     }
 
+    /* Respect reduced motion preferences */
     @media (prefers-reduced-motion: reduce) {
       html {
         scroll-behavior: auto;
       }
-      .animate-gentle-float {
+      .animate-float-slow {
         animation: none;
       }
-      .reveal-on-scroll {
+      .reveal-item {
         opacity: 1;
         transform: none;
         transition: none;
       }
-      .tactile-card {
+      .card-surface {
         transition: none;
       }
     }
   </style>
 </head>
-<body class="ambient-sunlit-bg min-h-screen text-ink-950 antialiased">
-  <!-- Toast Banner for Copy / Action Feedback -->
+<body class="sunlit-canvas min-h-screen text-cocoa-950 antialiased">
+  <!-- Non-blocking Toast Notification -->
   <div
-    id="toastBanner"
+    id="toastMessage"
     role="status"
     aria-live="polite"
-    class="pointer-events-none fixed bottom-5 left-1/2 z-50 -translate-x-1/2 translate-y-4 rounded-full border border-ink-950/15 bg-ink-950 px-5 py-2.5 text-xs font-semibold text-sunlit-50 opacity-0 shadow-elevated transition-all duration-300"
+    class="pointer-events-none fixed bottom-5 left-1/2 z-50 -translate-x-1/2 translate-y-4 rounded-full border border-cocoa-950/15 bg-cocoa-950 px-5 py-2.5 text-xs font-bold text-linen-50 opacity-0 shadow-lift transition-all duration-300"
   >
-    Copied to clipboard!
+    Copied!
   </div>
 
   <!-- =========================================================
-       1. TOP NAVIGATION & SECTION WAYFINDING
+       TOP NAVIGATION BAR & RESPONSIVE MOBILE MENU
   ========================================================== -->
-  <header class="sticky top-0 z-40 border-b border-ink-950/10 bg-sunlit-50/90 backdrop-blur-md">
+  <header class="sticky top-0 z-40 border-b border-cocoa-950/10 bg-linen-50/90 backdrop-blur-md">
     <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
-      <!-- Brand Wordmark & Portfolio Pill -->
+      <!-- Brand Mark -->
       <a href="#top" class="flex items-center gap-2.5 focus:outline-none">
-        <span class="font-display-tight text-xl font-extrabold tracking-tight text-ink-950 sm:text-2xl">
+        <span class="font-display-tight text-xl font-extrabold tracking-tight text-cocoa-950 sm:text-2xl">
           Swaadly
         </span>
-        <span class="hidden rounded-full border border-honey-600/30 bg-honey-400/20 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-ink-900 sm:inline-block">
-          AI Poster Showcase
+        <span class="hidden rounded-full border border-honey-600/30 bg-honey-400/20 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wider text-cocoa-900 sm:inline-block">
+          AI Masterclass Showcase
         </span>
       </a>
 
-      <!-- Desktop Navigation -->
-      <nav aria-label="Primary Sections" class="hidden items-center gap-6 text-sm font-semibold text-ink-800 md:flex">
-        <a href="#poster-gallery" class="transition hover:text-ink-950">01 Posters</a>
-        <a href="#flavour-lineup" class="transition hover:text-ink-950">02 Flavours</a>
-        <a href="#protein-comparison" class="transition hover:text-ink-950">03 Nutrition</a>
-        <a href="#smoothie-recipe" class="transition hover:text-ink-950">04 Recipe</a>
+      <!-- Desktop Navigation Links -->
+      <nav aria-label="Main Navigation" class="hidden items-center gap-7 text-sm font-semibold text-cocoa-800 md:flex">
+        <a href="#posters" class="transition hover:text-cocoa-950">Posters</a>
+        <a href="#flavours" class="transition hover:text-cocoa-950">Flavours</a>
+        <a href="#compare" class="transition hover:text-cocoa-950">Compare</a>
+        <a href="#recipe" class="transition hover:text-cocoa-950">Recipe</a>
       </nav>
 
-      <!-- Quick Poster Inspector Trigger -->
-      <button
-        id="openInspectorHeaderBtn"
-        type="button"
-        class="inline-flex min-h-[42px] items-center gap-2 rounded-xl bg-gradient-to-r from-honey-400 to-honey-500 px-3.5 py-2 text-xs font-extrabold text-ink-950 shadow-soft transition hover:brightness-105 sm:px-4 sm:text-sm"
-      >
-        <span>Poster Inspector</span>
-        <span aria-hidden="true">→</span>
-      </button>
+      <!-- Desktop Inspector Trigger & Mobile Menu Toggle -->
+      <div class="flex items-center gap-2">
+        <button
+          id="navOpenPosterBtn"
+          type="button"
+          class="hidden min-h-[42px] items-center gap-2 rounded-xl bg-gradient-to-r from-honey-400 to-honey-500 px-4 py-2 text-xs font-extrabold text-cocoa-950 shadow-warm transition hover:brightness-105 sm:inline-flex"
+        >
+          <span>Full Poster View</span>
+          <span aria-hidden="true">↗</span>
+        </button>
+
+        <button
+          id="mobileMenuToggleBtn"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mobileNavDrawer"
+          aria-label="Toggle navigation menu"
+          class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-cocoa-950/15 bg-white text-cocoa-950 shadow-sm transition hover:bg-linen-100 md:hidden"
+        >
+          <span id="mobileMenuIcon" class="text-lg font-bold leading-none">☰</span>
+        </button>
+      </div>
     </div>
 
-    <!-- Compact Mobile Section Strip -->
-    <div class="flex items-center gap-2 overflow-x-auto border-t border-ink-950/5 bg-sunlit-100/70 px-4 py-2 text-xs font-semibold text-ink-800 md:hidden">
-      <a href="#poster-gallery" class="shrink-0 rounded-lg bg-white px-2.5 py-1 shadow-sm">01 Posters</a>
-      <a href="#flavour-lineup" class="shrink-0 rounded-lg bg-white px-2.5 py-1 shadow-sm">02 Flavours</a>
-      <a href="#protein-comparison" class="shrink-0 rounded-lg bg-white px-2.5 py-1 shadow-sm">03 Nutrition</a>
-      <a href="#smoothie-recipe" class="shrink-0 rounded-lg bg-white px-2.5 py-1 shadow-sm">04 Recipe</a>
+    <!-- Collapsible Mobile Drawer -->
+    <div id="mobileNavDrawer" class="hidden border-t border-cocoa-950/10 bg-linen-50 px-4 py-3 md:hidden">
+      <div class="flex flex-col gap-1.5 text-sm font-semibold text-cocoa-800">
+        <a href="#posters" class="mobile-nav-link rounded-xl px-3 py-2.5 transition hover:bg-linen-100 hover:text-cocoa-950">Posters</a>
+        <a href="#flavours" class="mobile-nav-link rounded-xl px-3 py-2.5 transition hover:bg-linen-100 hover:text-cocoa-950">Flavours</a>
+        <a href="#compare" class="mobile-nav-link rounded-xl px-3 py-2.5 transition hover:bg-linen-100 hover:text-cocoa-950">Compare</a>
+        <a href="#recipe" class="mobile-nav-link rounded-xl px-3 py-2.5 transition hover:bg-linen-100 hover:text-cocoa-950">Recipe</a>
+        <button
+          id="mobileOpenPosterBtn"
+          type="button"
+          class="mt-1 flex min-h-[42px] w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-honey-400 to-honey-500 px-4 py-2.5 text-xs font-extrabold text-cocoa-950"
+        >
+          <span>Open Full Poster Modal</span>
+          <span aria-hidden="true">↗</span>
+        </button>
+      </div>
     </div>
   </header>
 
   <main id="top">
     <!-- =========================================================
-         2. HERO SECTION (LIGHT SUNLIT EDITORIAL + INTERACTIVE MOOD)
+         HERO SECTION (SUNLIT D2C SHOWCASE + FEATURED POSTER PREVIEW)
     ========================================================== -->
-    <section class="relative py-10 sm:py-14 lg:py-20">
+    <section class="py-10 sm:py-14 lg:py-20">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
-          <!-- Left Copy Column (7 cols) -->
-          <div class="reveal-on-scroll lg:col-span-7">
-            <div class="inline-flex flex-wrap items-center gap-2 rounded-full border border-ink-950/12 bg-white px-3.5 py-1.5 text-xs font-bold text-ink-800 shadow-soft">
+        <div class="grid items-center gap-8 lg:grid-cols-12 lg:gap-12">
+          <!-- Hero Copy & Quick Controls (7 cols) -->
+          <div class="reveal-item lg:col-span-7">
+            <div class="inline-flex flex-wrap items-center gap-2 rounded-full border border-cocoa-950/12 bg-white px-3.5 py-1.5 text-xs font-bold text-cocoa-800 shadow-warm">
               <span class="h-2 w-2 rounded-full bg-honey-500"></span>
+              <span>Prashant Kirad&apos;s AI Masterclass Challenge</span>
+              <span class="text-cocoa-700/40">•</span>
               <span>100% Roasted Peanuts</span>
-              <span class="text-ink-700/40">•</span>
+              <span class="text-cocoa-700/40">•</span>
               <span>No Palm Oil</span>
-              <span class="text-ink-700/40">•</span>
-              <span>Student AI Concept</span>
             </div>
 
-            <h1 class="font-display-tight mt-5 text-4xl font-extrabold leading-[1.06] text-ink-950 sm:text-5xl lg:text-6xl">
-              Real Swaad, Sent Straight to Your Kitchen.
+            <h1 class="font-display-tight mt-5 text-4xl font-extrabold leading-[1.06] text-cocoa-950 sm:text-5xl lg:text-6xl">
+              Swaadly AI Poster &amp; Flavour Showcase.
             </h1>
 
-            <p class="mt-4 max-w-2xl text-base leading-relaxed text-ink-800 sm:text-lg">
-              A warm, responsive D2C showcase built around Swaadly&apos;s peanut butter lineup and five generated 4:5 poster concepts—switch flavours below to preview the spotlight card, inspect full artwork, or copy prompts and captions.
+            <p class="mt-4 max-w-2xl text-base leading-relaxed text-cocoa-800 sm:text-lg">
+              Five 4:5 campaign posters crafted for Swaadly&apos;s peanut butter lineup—built in a warm editorial D2C layout ready for GitHub Pages across mobile, tablet, and desktop screens.
             </p>
 
-            <!-- Interactive Flavour Mood Switcher -->
+            <!-- Quick Flavour Switcher Pills -->
             <div class="mt-6">
               <div class="flex flex-wrap items-center justify-between gap-2">
-                <span class="text-xs font-extrabold uppercase tracking-wider text-ink-700">
-                  Interactive Flavour Mood Switcher
+                <span class="text-xs font-extrabold uppercase tracking-wider text-cocoa-700">
+                  Featured Poster Selector
                 </span>
-                <span id="activeMoodBadge" class="rounded-full bg-sunlit-200 px-3 py-0.5 text-xs font-bold text-ink-950">
+                <span id="heroActiveBadge" class="rounded-full bg-linen-200 px-3 py-0.5 text-xs font-bold text-cocoa-950">
                   Classic Original Splash
                 </span>
               </div>
-
-              <div id="moodSwitcherGroup" class="mt-2.5 flex flex-wrap gap-2">
-                <!-- Populated via JS -->
+              <div id="heroPosterSwitcher" class="mt-2.5 flex flex-wrap gap-2">
+                <!-- Rendered via JS -->
               </div>
             </div>
 
-            <!-- Primary & Secondary CTAs -->
+            <!-- Action Buttons -->
             <div class="mt-7 flex flex-wrap items-center gap-3">
               <a
-                href="#poster-gallery"
-                class="inline-flex min-h-[46px] items-center justify-center rounded-xl bg-ink-950 px-5 py-3 text-sm font-bold text-sunlit-50 shadow-soft transition hover:bg-ink-800"
+                href="#posters"
+                class="inline-flex min-h-[46px] items-center justify-center rounded-xl bg-cocoa-950 px-5 py-3 text-sm font-bold text-linen-50 shadow-warm transition hover:bg-cocoa-800"
               >
                 Explore All 5 Posters
               </a>
               <button
-                id="heroCopyPromptBtn"
+                id="heroViewFullBtn"
                 type="button"
-                class="inline-flex min-h-[46px] items-center justify-center rounded-xl border border-ink-950/15 bg-white px-5 py-3 text-sm font-bold text-ink-950 shadow-soft transition hover:border-honey-600/50 hover:bg-sunlit-100"
+                class="inline-flex min-h-[46px] items-center justify-center rounded-xl border border-cocoa-950/15 bg-white px-5 py-3 text-sm font-bold text-cocoa-950 shadow-warm transition hover:border-honey-600/50 hover:bg-linen-100"
               >
-                Copy Active Poster Prompt
+                View Full Poster
+              </button>
+              <button
+                id="heroCopyCaptionBtn"
+                type="button"
+                class="inline-flex min-h-[46px] items-center justify-center rounded-xl border border-honey-600/35 bg-honey-400/20 px-4 py-3 text-sm font-bold text-cocoa-950 transition hover:bg-honey-400/35"
+              >
+                Copy Caption
               </button>
             </div>
           </div>
 
-          <!-- Right Hero Spotlight Card (5 cols) -->
-          <div class="reveal-on-scroll lg:col-span-5">
-            <div class="animate-gentle-float tactile-card rounded-[2rem] border border-ink-950/12 bg-white p-5 shadow-elevated sm:p-6">
+          <!-- Featured Poster Preview Card (5 cols) -->
+          <div class="reveal-item lg:col-span-5">
+            <div class="animate-float-slow card-surface rounded-[2rem] border border-cocoa-950/12 bg-white p-5 shadow-lift sm:p-6">
               <div class="flex items-center justify-between gap-2">
-                <span id="heroSpotProtein" class="rounded-full bg-sunlit-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-ink-950">
-                  130g Protein Callout
+                <span id="heroCardTag" class="rounded-full bg-linen-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-cocoa-950">
+                  Classic Original
                 </span>
-                <span id="heroSpotRatio" class="font-mono text-xs font-semibold text-ink-700">
-                  4:5 Poster Concept
+                <span id="heroCardFile" class="font-mono text-xs font-semibold text-cocoa-700">
+                  ./classic-original.jpg
                 </span>
               </div>
 
-              <!-- Visual Stage for Active Poster Concept -->
-              <div id="heroSpotVisualBox" class="mt-4 overflow-hidden rounded-2xl border border-ink-950/10 p-4 text-center transition-colors duration-300">
-                <!-- EDITABLE POSTER IMAGE SLOT (Replace src with your own poster file/URL) -->
-                <div class="mx-auto aspect-[4/5] w-full max-w-[270px] overflow-hidden rounded-xl border border-ink-950/15 bg-sunlit-100 shadow-md">
+              <div class="mt-4 overflow-hidden rounded-2xl border border-cocoa-950/10 bg-linen-100 p-3.5">
+                <div class="mx-auto aspect-[4/5] w-full max-w-[280px] overflow-hidden rounded-xl border border-cocoa-950/15 bg-linen-50 shadow-sm">
                   <img
-                    id="heroSpotPosterImg"
-                    src=""
-                    alt="Selected Swaadly Poster Preview"
+                    id="heroFeaturedImg"
+                    src="./classic-original.jpg"
+                    alt="Classic Original Splash Poster Preview"
                     class="h-full w-full object-cover object-center transition-transform duration-500 hover:scale-[1.02]"
                   />
                 </div>
-
-                <p id="heroSpotHeadline" class="font-display-tight mt-3.5 text-base font-extrabold leading-snug text-ink-950 sm:text-lg">
-                  HEALTH THAT ACTUALLY TASTES GOOD.
-                </p>
-                <p id="heroSpotSubline" class="mt-0.5 text-[11px] font-bold uppercase tracking-wider text-ink-700">
-                  REAL PEANUTS. ZERO NONSENSE.
-                </p>
-
-                <div id="heroSpotNotes" class="mt-3 rounded-xl border border-ink-950/10 bg-white/95 px-3.5 py-2.5 text-left text-xs leading-relaxed text-ink-800">
-                  <!-- Filled via JS -->
-                </div>
               </div>
 
-              <div class="mt-4 flex items-center justify-between gap-3 pt-1">
+              <div class="mt-4 flex items-center justify-between gap-3">
                 <div>
-                  <h2 id="heroSpotTitle" class="font-display-tight text-lg font-extrabold text-ink-950">
+                  <h2 id="heroFeaturedTitle" class="font-display-tight text-lg font-extrabold text-cocoa-950">
                     Classic Original Splash
                   </h2>
-                  <p id="heroSpotPack" class="text-xs font-medium text-ink-700">130g Protein Callout • White Lid</p>
+                  <p id="heroFeaturedHeadline" class="text-xs font-semibold text-cocoa-700">
+                    HEALTH THAT ACTUALLY TASTES GOOD.
+                  </p>
                 </div>
                 <button
-                  id="heroSpotInspectBtn"
+                  id="heroCardInspectBtn"
                   type="button"
-                  class="min-h-[42px] shrink-0 rounded-xl bg-ink-950 px-4 py-2 text-xs font-extrabold text-sunlit-50 transition hover:bg-ink-800"
+                  class="min-h-[42px] shrink-0 rounded-xl bg-cocoa-950 px-4 py-2 text-xs font-extrabold text-linen-50 transition hover:bg-cocoa-800"
                 >
-                  View Full Poster
+                  Open Modal
                 </button>
               </div>
             </div>
@@ -309,110 +330,138 @@
     </section>
 
     <!-- =========================================================
-         3. POSTER & AD SHOWCASE GALLERY (ALL 5 GENERATED POSTERS)
+         INTERACTIVE POSTER GALLERY (ALL 5 POSTERS + FILTERS)
     ========================================================== -->
-    <section id="poster-gallery" class="border-t border-ink-950/10 bg-sunlit-100/75 py-14 sm:py-20">
+    <section id="posters" class="border-t border-cocoa-950/10 bg-linen-100/80 py-14 sm:py-20">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="reveal-on-scroll flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div class="reveal-item flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <div>
-            <span class="inline-block rounded-full bg-honey-400/25 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-ink-950">
-              01 • Poster &amp; Ad Gallery
+            <span class="inline-block rounded-full bg-honey-400/25 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-cocoa-950">
+              Poster Gallery • 5 Concepts
             </span>
-            <h2 class="font-display-tight mt-2 text-3xl font-extrabold text-ink-950 sm:text-4xl lg:text-5xl">
-              Generated Swaadly Posters (5 Variants)
+            <h2 class="font-display-tight mt-2 text-3xl font-extrabold text-cocoa-950 sm:text-4xl lg:text-5xl">
+              Swaadly Campaign Poster Lineup
             </h2>
           </div>
-          <p class="max-w-md text-sm leading-relaxed text-ink-800">
-            All five 4:5 poster concepts are displayed below. Click <strong class="text-ink-950">View Full Poster</strong> on any card to inspect the full artwork, creative notes, and Instagram caption.
-          </p>
+
+          <!-- Category / Flavour Filter Buttons -->
+          <div id="posterFilterBar" class="flex flex-wrap gap-2">
+            <button
+              type="button"
+              data-poster-filter="all"
+              class="poster-filter-btn min-h-[40px] rounded-xl bg-cocoa-950 px-3.5 py-2 text-xs font-extrabold text-linen-50 transition"
+            >
+              All (5)
+            </button>
+            <button
+              type="button"
+              data-poster-filter="classic-natural"
+              class="poster-filter-btn min-h-[40px] rounded-xl border border-cocoa-950/15 bg-white px-3.5 py-2 text-xs font-extrabold text-cocoa-950 transition hover:border-honey-600/50"
+            >
+              Classic &amp; Natural
+            </button>
+            <button
+              type="button"
+              data-poster-filter="chocolate"
+              class="poster-filter-btn min-h-[40px] rounded-xl border border-cocoa-950/15 bg-white px-3.5 py-2 text-xs font-extrabold text-cocoa-950 transition hover:border-honey-600/50"
+            >
+              Chocolate &amp; Crunchy
+            </button>
+            <button
+              type="button"
+              data-poster-filter="high-protein"
+              class="poster-filter-btn min-h-[40px] rounded-xl border border-cocoa-950/15 bg-white px-3.5 py-2 text-xs font-extrabold text-cocoa-950 transition hover:border-honey-600/50"
+            >
+              High Protein
+            </button>
+          </div>
         </div>
 
-        <!-- Responsive Grid (1 -> 2 -> 3 cols) -->
+        <!-- Responsive Poster Grid -->
         <div id="posterGalleryGrid" class="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <!-- Rendered by JS -->
+          <!-- Populated via JS -->
         </div>
       </div>
     </section>
 
     <!-- =========================================================
-         4. FLAVOUR LINEUP (ALL 5 VARIANTS)
+         FLAVOUR LINEUP CARDS
     ========================================================== -->
-    <section id="flavour-lineup" class="border-t border-ink-950/10 py-14 sm:py-20">
+    <section id="flavours" class="border-t border-cocoa-950/10 py-14 sm:py-20">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="reveal-on-scroll flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div class="reveal-item flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <span class="inline-block rounded-full bg-sunlit-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-ink-950">
-              02 • The Flavour Lineup
+            <span class="inline-block rounded-full bg-linen-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-cocoa-950">
+              Flavour Lineup
             </span>
-            <h2 class="font-display-tight mt-2 text-3xl font-extrabold text-ink-950 sm:text-4xl lg:text-5xl">
-              Classic, Crunchy, Chocolatey &amp; Natural.
+            <h2 class="font-display-tight mt-2 text-3xl font-extrabold text-cocoa-950 sm:text-4xl lg:text-5xl">
+              Crafted for Every Daily Craving.
             </h2>
           </div>
-          <p class="max-w-md text-sm leading-relaxed text-ink-800">
-            Select any flavour to sync the page&apos;s sunlit mood and hero spotlight, or open its linked poster concept directly.
+          <p class="max-w-md text-sm leading-relaxed text-cocoa-800">
+            Click any flavour card to spotlight its poster in the hero preview or open its full poster lightbox.
           </p>
         </div>
 
-        <div id="flavourLineupGrid" class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          <!-- Rendered by JS -->
+        <div id="flavourCardsGrid" class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <!-- Populated via JS -->
         </div>
       </div>
     </section>
 
     <!-- =========================================================
-         5. PICK YOUR PROTEIN (FILTERABLE COMPARISON TABLE)
+         PROTEIN & NUTRITION COMPARISON TABLE
     ========================================================== -->
-    <section id="protein-comparison" class="border-t border-ink-950/10 bg-sunlit-100/75 py-14 sm:py-20">
+    <section id="compare" class="border-t border-cocoa-950/10 bg-linen-100/80 py-14 sm:py-20">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="reveal-on-scroll flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
+        <div class="reveal-item flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <div>
-            <span class="inline-block rounded-full bg-honey-400/25 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-ink-950">
-              03 • Pick Your Protein
+            <span class="inline-block rounded-full bg-honey-400/25 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-cocoa-950">
+              Nutrition Comparison
             </span>
-            <h2 class="font-display-tight mt-2 text-3xl font-extrabold text-ink-950 sm:text-4xl lg:text-5xl">
-              How Swaadly Compares With Other Options.
+            <h2 class="font-display-tight mt-2 text-3xl font-extrabold text-cocoa-950 sm:text-4xl lg:text-5xl">
+              How Swaadly Stacks Up.
             </h2>
           </div>
 
-          <!-- Filter Buttons -->
-          <div id="comparisonFilterGroup" class="flex flex-wrap gap-2">
+          <div id="nutritionFilterBar" class="flex flex-wrap gap-2">
             <button
               type="button"
-              data-filter="all"
-              class="filter-btn min-h-[40px] rounded-xl bg-ink-950 px-3.5 py-2 text-xs font-extrabold text-sunlit-50 transition"
+              data-nutri-filter="all"
+              class="nutri-filter-btn min-h-[40px] rounded-xl bg-cocoa-950 px-3.5 py-2 text-xs font-extrabold text-linen-50 transition"
             >
-              All Criteria
+              All Rows
             </button>
             <button
               type="button"
-              data-filter="convenience"
-              class="filter-btn min-h-[40px] rounded-xl border border-ink-950/15 bg-white px-3.5 py-2 text-xs font-extrabold text-ink-950 transition hover:border-honey-600/50"
+              data-nutri-filter="clean"
+              class="nutri-filter-btn min-h-[40px] rounded-xl border border-cocoa-950/15 bg-white px-3.5 py-2 text-xs font-extrabold text-cocoa-950 transition hover:border-honey-600/50"
             >
-              Ready &amp; Shelf Life
+              Clean Ingredients &amp; Protein
             </button>
             <button
               type="button"
-              data-filter="clean"
-              class="filter-btn min-h-[40px] rounded-xl border border-ink-950/15 bg-white px-3.5 py-2 text-xs font-extrabold text-ink-950 transition hover:border-honey-600/50"
+              data-nutri-filter="convenience"
+              class="nutri-filter-btn min-h-[40px] rounded-xl border border-cocoa-950/15 bg-white px-3.5 py-2 text-xs font-extrabold text-cocoa-950 transition hover:border-honey-600/50"
             >
-              Clean &amp; High Protein
+              Speed &amp; Shelf Life
             </button>
           </div>
         </div>
 
-        <div class="reveal-on-scroll mt-8 overflow-x-auto rounded-3xl border border-ink-950/12 bg-white shadow-soft">
+        <div class="reveal-item mt-8 overflow-x-auto rounded-3xl border border-cocoa-950/12 bg-white shadow-warm">
           <table class="w-full min-w-[640px] border-collapse text-left text-sm">
             <thead>
-              <tr class="border-b border-ink-950/10 bg-sunlit-100/80 text-xs font-extrabold uppercase tracking-wider text-ink-950">
-                <th class="px-5 py-4">Feature</th>
-                <th class="bg-honey-400/25 px-5 py-4 text-ink-950">Swaadly</th>
+              <tr class="border-b border-cocoa-950/10 bg-linen-100 text-xs font-extrabold uppercase tracking-wider text-cocoa-950">
+                <th class="px-5 py-4">Criterion</th>
+                <th class="bg-honey-400/25 px-5 py-4 text-cocoa-950">Swaadly</th>
                 <th class="px-5 py-4">Other PB Brands</th>
                 <th class="px-5 py-4">Red Meat</th>
-                <th class="px-5 py-4">Home-cooked Food</th>
+                <th class="px-5 py-4">Home-Cooked Food</th>
               </tr>
             </thead>
-            <tbody id="comparisonTableBody" class="divide-y divide-ink-950/10 text-ink-800">
-              <!-- Populated by JS -->
+            <tbody id="nutritionTableBody" class="divide-y divide-cocoa-950/10 text-cocoa-800">
+              <!-- Populated via JS -->
             </tbody>
           </table>
         </div>
@@ -420,46 +469,42 @@
     </section>
 
     <!-- =========================================================
-         6. COOKBOOK — PEANUT BUTTER BANANA SMOOTHIE
+         PEANUT BUTTER BANANA SMOOTHIE RECIPE CARD
     ========================================================== -->
-    <section id="smoothie-recipe" class="border-t border-ink-950/10 py-14 sm:py-20">
+    <section id="recipe" class="border-t border-cocoa-950/10 py-14 sm:py-20">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="reveal-on-scroll rounded-[2rem] border border-ink-950/12 bg-white p-6 shadow-elevated sm:p-8 lg:p-10">
+        <div class="reveal-item rounded-[2rem] border border-cocoa-950/12 bg-white p-6 shadow-lift sm:p-8 lg:p-10">
           <div class="grid gap-8 lg:grid-cols-12 lg:items-start">
-            <!-- Left Recipe Intro (5 cols) -->
             <div class="lg:col-span-5">
-              <span class="inline-block rounded-full bg-sunlit-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-ink-950">
-                04 • Cookbook • Skip the &ldquo;What Do I Make?&rdquo;
+              <span class="inline-block rounded-full bg-linen-200 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-cocoa-950">
+                Quick Kitchen Recipe
               </span>
-              <h2 class="font-display-tight mt-3 text-3xl font-extrabold text-ink-950 sm:text-4xl">
+              <h2 class="font-display-tight mt-3 text-3xl font-extrabold text-cocoa-950 sm:text-4xl">
                 Peanut Butter Banana Smoothie
               </h2>
-              <p class="mt-3 text-sm leading-relaxed text-ink-800">
-                A quick, creamy breakfast or post-snack blend built around Swaadly Classic Crunch—zero cooking hassle and rich nutty texture.
+              <p class="mt-3 text-sm leading-relaxed text-cocoa-800">
+                Thick, nutty, and ready in minutes using Swaadly Classic Crunch—great for mornings, study breaks, or post-workout fuel.
               </p>
 
-              <div class="mt-5 rounded-2xl border border-ink-950/10 bg-sunlit-100/80 p-4">
-                <div class="flex items-center justify-between gap-3">
-                  <div>
-                    <p class="text-[11px] font-extrabold uppercase tracking-wider text-ink-700">Featured Jar</p>
-                    <p class="font-display-tight text-base font-extrabold text-ink-950">Classic Original (500g)</p>
-                  </div>
-                  <button
-                    id="recipeInspectJarBtn"
-                    type="button"
-                    class="min-h-[40px] rounded-xl bg-ink-950 px-3.5 py-2 text-xs font-extrabold text-sunlit-50 transition hover:bg-ink-800"
-                  >
-                    View Full Poster
-                  </button>
+              <div class="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-cocoa-950/10 bg-linen-100 p-4">
+                <div>
+                  <p class="text-[11px] font-extrabold uppercase tracking-wider text-cocoa-700">Paired Poster</p>
+                  <p class="font-display-tight text-base font-extrabold text-cocoa-950">Classic Original Splash</p>
                 </div>
+                <button
+                  id="recipeOpenPosterBtn"
+                  type="button"
+                  class="min-h-[40px] rounded-xl bg-cocoa-950 px-3.5 py-2 text-xs font-extrabold text-linen-50 transition hover:bg-cocoa-800"
+                >
+                  View Full Poster
+                </button>
               </div>
             </div>
 
-            <!-- Right Ingredients & Steps (7 cols) -->
             <div class="grid gap-6 sm:grid-cols-2 lg:col-span-7">
-              <div class="rounded-2xl border border-ink-950/10 bg-sunlit-50 p-5">
-                <h3 class="font-display-tight text-base font-extrabold text-ink-950">Ingredients</h3>
-                <ul class="mt-3 space-y-2.5 text-sm text-ink-800">
+              <div class="rounded-2xl border border-cocoa-950/10 bg-linen-50 p-5">
+                <h3 class="font-display-tight text-base font-extrabold text-cocoa-950">Ingredients</h3>
+                <ul class="mt-3 space-y-2.5 text-sm text-cocoa-800">
                   <li class="flex items-start gap-2.5">
                     <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-honey-500"></span>
                     <span><strong>1</strong> frozen banana</span>
@@ -474,25 +519,25 @@
                   </li>
                   <li class="flex items-start gap-2.5">
                     <span class="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-honey-500"></span>
-                    <span><strong>1 tbsp</strong> oats + pinch of cinnamon</span>
+                    <span><strong>1 tbsp</strong> rolled oats + pinch of cinnamon</span>
                   </li>
                 </ul>
               </div>
 
-              <div class="rounded-2xl border border-ink-950/10 bg-sunlit-50 p-5">
-                <h3 class="font-display-tight text-base font-extrabold text-ink-950">Steps to Make</h3>
-                <ol class="mt-3 space-y-3 text-sm text-ink-800">
+              <div class="rounded-2xl border border-cocoa-950/10 bg-linen-50 p-5">
+                <h3 class="font-display-tight text-base font-extrabold text-cocoa-950">Preparation Steps</h3>
+                <ol class="mt-3 space-y-3 text-sm text-cocoa-800">
                   <li class="flex items-start gap-3">
-                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-honey-400/30 text-xs font-extrabold text-ink-950">1</span>
-                    <span>Add everything to a blender.</span>
+                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-honey-400/30 text-xs font-extrabold text-cocoa-950">1</span>
+                    <span>Add banana, peanut butter, milk, oats, and cinnamon to a blender.</span>
                   </li>
                   <li class="flex items-start gap-3">
-                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-honey-400/30 text-xs font-extrabold text-ink-950">2</span>
-                    <span>Blend until smooth and creamy.</span>
+                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-honey-400/30 text-xs font-extrabold text-cocoa-950">2</span>
+                    <span>Blend on high until smooth, frothy, and creamy.</span>
                   </li>
                   <li class="flex items-start gap-3">
-                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-honey-400/30 text-xs font-extrabold text-ink-950">3</span>
-                    <span>Pour, top with granola + get on with your day.</span>
+                    <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-honey-400/30 text-xs font-extrabold text-cocoa-950">3</span>
+                    <span>Pour into a glass, add a light crunch topping, and serve chilled.</span>
                   </li>
                 </ol>
               </div>
@@ -504,125 +549,120 @@
   </main>
 
   <!-- =========================================================
-       7. FOOTER & STUDENT PORTFOLIO DISCLAIMER
+       STUDENT PORTFOLIO FOOTER
   ========================================================== -->
-  <footer class="border-t border-ink-950/10 bg-sunlit-100/90 py-10">
+  <footer class="border-t border-cocoa-950/10 bg-linen-100 py-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="rounded-2xl border border-ink-950/12 bg-white p-4 text-xs leading-relaxed text-ink-800 shadow-soft sm:p-5">
-        <strong class="font-extrabold text-ink-950">Student Portfolio &amp; Concept Notice:</strong>
-        This page is an independent student AI poster and D2C showcase project inspired by Swaadly&apos;s product lineup and creative challenge. It is not an official Swaadly storefront or checkout portal.
+      <div class="rounded-2xl border border-cocoa-950/12 bg-white p-4 text-xs leading-relaxed text-cocoa-800 shadow-warm sm:p-5">
+        <strong class="font-extrabold text-cocoa-950">Student Portfolio Disclaimer:</strong>
+        Created as a student AI creative and web showcase project for Prashant Kirad&apos;s AI Masterclass challenge inspired by Swaadly. This site is an independent showcase portfolio and is not an official Swaadly checkout store.
       </div>
 
-      <div class="mt-6 flex flex-col items-start justify-between gap-3 text-xs text-ink-700 sm:flex-row sm:items-center">
-        <p>&copy; 2026 Swaadly Student Showcase Concept. All brand trademarks belong to their respective owners.</p>
-        <div class="flex items-center gap-4 font-semibold">
-          <a href="#poster-gallery" class="hover:text-ink-950">Posters</a>
-          <a href="#flavour-lineup" class="hover:text-ink-950">Flavours</a>
-          <a href="#protein-comparison" class="hover:text-ink-950">Nutrition</a>
-          <a href="#smoothie-recipe" class="hover:text-ink-950">Recipe</a>
+      <div class="mt-6 flex flex-col items-start justify-between gap-3 text-xs text-cocoa-700 sm:flex-row sm:items-center">
+        <p>&copy; 2026 Swaadly Student Showcase Portfolio. All brand names belong to their respective owners.</p>
+        <div class="flex flex-wrap items-center gap-4 font-semibold">
+          <a href="#posters" class="hover:text-cocoa-950">Posters</a>
+          <a href="#flavours" class="hover:text-cocoa-950">Flavours</a>
+          <a href="#compare" class="hover:text-cocoa-950">Compare</a>
+          <a href="#recipe" class="hover:text-cocoa-950">Recipe</a>
         </div>
       </div>
     </div>
   </footer>
 
   <!-- =========================================================
-       8. POSTER & AD INSPECTOR / LIGHTBOX MODAL
+       FULL POSTER MODAL (NO PROMPT INSTRUCTIONS)
   ========================================================== -->
   <div
-    id="posterModal"
+    id="fullPosterModal"
     role="dialog"
     aria-modal="true"
-    aria-labelledby="modalPosterTitle"
-    class="fixed inset-0 z-50 hidden items-center justify-center bg-ink-950/60 p-3 backdrop-blur-sm sm:p-6"
+    aria-labelledby="modalTitleHeading"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-cocoa-950/65 p-3 backdrop-blur-sm sm:p-6"
   >
-    <div class="flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-[2rem] border border-ink-950/15 bg-sunlit-50 shadow-elevated">
-      <!-- Modal Header -->
-      <div class="flex items-center justify-between gap-3 border-b border-ink-950/10 bg-white px-5 py-4 sm:px-7">
+    <div class="flex max-h-[92vh] w-full max-w-4xl flex-col overflow-hidden rounded-[2rem] border border-cocoa-950/15 bg-linen-50 shadow-lift">
+      <div class="flex items-center justify-between gap-3 border-b border-cocoa-950/10 bg-white px-5 py-4 sm:px-7">
         <div>
           <span class="text-[11px] font-extrabold uppercase tracking-wider text-honey-600">
-            Full Poster Lightbox &amp; Campaign Details
+            Full Poster Showcase
           </span>
-          <h3 id="modalPosterTitle" class="font-display-tight text-lg font-extrabold text-ink-950 sm:text-xl">
+          <h3 id="modalTitleHeading" class="font-display-tight text-lg font-extrabold text-cocoa-950 sm:text-xl">
             Classic Original Splash
           </h3>
         </div>
         <button
-          id="closeModalBtn"
+          id="closePosterModalBtn"
           type="button"
-          aria-label="Close poster modal"
-          class="flex h-10 w-10 items-center justify-center rounded-xl border border-ink-950/15 bg-sunlit-100 text-base font-bold text-ink-950 transition hover:bg-sunlit-200"
+          aria-label="Close full poster modal"
+          class="flex h-10 w-10 items-center justify-center rounded-xl border border-cocoa-950/15 bg-linen-100 text-base font-bold text-cocoa-950 transition hover:bg-linen-200"
         >
           ✕
         </button>
       </div>
 
-      <!-- Modal Body -->
       <div class="overflow-y-auto p-5 sm:p-7">
-        <!-- Quick Poster Switcher Pills -->
-        <div id="modalPosterTabs" class="mb-5 flex flex-wrap gap-2">
-          <!-- Populated by JS -->
+        <!-- Switcher Tabs Inside Modal -->
+        <div id="modalPosterSwitcher" class="mb-5 flex flex-wrap gap-2">
+          <!-- Populated via JS -->
         </div>
 
-        <div class="grid gap-5 md:grid-cols-12">
-          <!-- Left Full Artwork Frame (6 cols) -->
-          <div class="rounded-2xl border border-ink-950/12 bg-white p-4 shadow-soft md:col-span-6">
-            <div class="aspect-[4/5] w-full overflow-hidden rounded-xl border border-ink-950/15 bg-sunlit-100">
-              <!-- EDITABLE FULL POSTER IMAGE SLOT -->
+        <div class="grid gap-6 md:grid-cols-12">
+          <!-- Full Poster Image Frame -->
+          <div class="rounded-2xl border border-cocoa-950/12 bg-white p-4 shadow-warm md:col-span-6">
+            <div class="aspect-[4/5] w-full overflow-hidden rounded-xl border border-cocoa-950/15 bg-linen-100">
               <img
-                id="modalPosterFullImg"
-                src=""
-                alt="Full Poster Lightbox Preview"
+                id="modalFullPosterImg"
+                src="./classic-original.jpg"
+                alt="Full Poster Preview"
                 class="h-full w-full object-cover object-center"
               />
             </div>
           </div>
 
-          <!-- Right Poster Breakdown & Instagram Caption (6 cols) -->
+          <!-- Ad Headline, Campaign Copy & Key Nutrition Highlights -->
           <div class="flex flex-col justify-between space-y-4 md:col-span-6">
-            <div class="rounded-2xl border border-ink-950/12 bg-white p-4 shadow-soft">
+            <div class="rounded-2xl border border-cocoa-950/12 bg-white p-4 shadow-warm">
               <div class="flex items-center justify-between gap-2">
-                <span id="modalFlavourPill" class="inline-block rounded-full bg-honey-400/25 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-ink-950">
+                <span id="modalFlavourBadge" class="rounded-full bg-honey-400/25 px-3 py-1 text-[11px] font-extrabold uppercase tracking-wider text-cocoa-950">
                   Classic Original
                 </span>
-                <span class="font-mono text-[11px] font-semibold text-ink-700">4:5 Ad Format</span>
+                <span id="modalAssetName" class="font-mono text-[11px] font-semibold text-cocoa-700">
+                  ./classic-original.jpg
+                </span>
               </div>
 
-              <p class="mt-3 text-[11px] font-extrabold uppercase tracking-wider text-ink-700">Poster Headline</p>
-              <p id="modalHeadline" class="font-display-tight mt-0.5 text-base font-extrabold leading-snug text-ink-950">
+              <p class="mt-3 text-[11px] font-extrabold uppercase tracking-wider text-cocoa-700">Ad Headline</p>
+              <p id="modalAdHeadline" class="font-display-tight mt-0.5 text-base font-extrabold text-cocoa-950">
                 HEALTH THAT ACTUALLY TASTES GOOD.
               </p>
-              <p id="modalSubheadline" class="mt-0.5 text-xs font-bold text-honey-600">
+              <p id="modalAdSubheadline" class="mt-0.5 text-xs font-bold text-honey-600">
                 REAL PEANUTS. ZERO NONSENSE.
               </p>
 
-              <div class="mt-3.5 space-y-2 border-t border-ink-950/10 pt-3 text-xs text-ink-800">
-                <div>
-                  <span class="font-extrabold text-ink-950">Protein &amp; Pack: </span>
-                  <span id="modalProteinSpec">130g Protein Callout • White Lid</span>
-                </div>
-                <div>
-                  <span class="font-extrabold text-ink-950">Visual &amp; Packaging Direction: </span>
-                  <span id="modalPackagingNotes">Warm honey-amber peanut butter swirl with roasted peanut halves.</span>
-                </div>
+              <div class="mt-3.5 border-t border-cocoa-950/10 pt-3">
+                <p class="text-[11px] font-extrabold uppercase tracking-wider text-cocoa-700">Campaign Copy</p>
+                <p id="modalCampaignCopy" class="mt-1 text-xs leading-relaxed text-cocoa-800">
+                  <!-- Populated via JS -->
+                </p>
+              </div>
+
+              <div class="mt-3.5 border-t border-cocoa-950/10 pt-3">
+                <p class="text-[11px] font-extrabold uppercase tracking-wider text-cocoa-700">Key Nutrition Highlights</p>
+                <ul id="modalNutritionList" class="mt-2 space-y-1.5 text-xs text-cocoa-800">
+                  <!-- Populated via JS -->
+                </ul>
               </div>
             </div>
 
-            <div class="rounded-2xl border border-ink-950/12 bg-white p-4 shadow-soft">
-              <div class="flex items-center justify-between gap-2">
-                <span class="text-xs font-extrabold uppercase tracking-wider text-ink-950">
-                  Suggested Instagram Caption
-                </span>
-                <button
-                  id="copyModalCaptionBtn"
-                  type="button"
-                  class="min-h-[36px] rounded-lg bg-sunlit-200 px-3 py-1.5 text-xs font-extrabold text-ink-950 transition hover:bg-honey-400/50"
-                >
-                  Copy Caption
-                </button>
-              </div>
-              <p id="modalCaptionBox" class="mt-2.5 rounded-xl border border-ink-950/10 bg-sunlit-50 p-3 text-xs leading-relaxed text-ink-800">
-                <!-- Filled via JS -->
-              </p>
+            <div class="flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-cocoa-950/12 bg-white p-4 shadow-warm">
+              <span class="text-xs font-bold text-cocoa-700">Shareable campaign caption</span>
+              <button
+                id="modalCopyCaptionBtn"
+                type="button"
+                class="min-h-[38px] rounded-xl bg-linen-200 px-3.5 py-2 text-xs font-extrabold text-cocoa-950 transition hover:bg-honey-400/50"
+              >
+                Copy Caption
+              </button>
             </div>
           </div>
         </div>
@@ -631,242 +671,284 @@
   </div>
 
   <!-- =========================================================
-       9. INTERACTIVE APPLICATION LOGIC
+       APPLICATION JAVASCRIPT
   ========================================================== -->
   <script>
     (function () {
       'use strict';
 
-      // =========================================================================
-      // HOW TO ADD YOUR OWN POSTER PHOTOS EASILY:
-      // 1. Put your 5 poster files in a folder next to this HTML file, e.g.:
-      //    ./posters/classic-original.jpg
-      //    ./posters/creamy-chocolate.jpg
-      //    ./posters/all-natural.jpg
-      //    ./posters/choco-crunchy-white.jpg
-      //    ./posters/high-protein-dark-choco.jpg
-      // 2. Replace the `imageSrc` value of each object in `POSTER_CONCEPTS` below
-      //    with your file path or hosted image URL.
-      // 3. If a file is missing or not yet placed, `fallbackArtwork` displays a
-      //    clean placeholder so the layout never breaks.
-      // =========================================================================
-      function fallbackArtwork(label, sublabel, accentBg, accentFg) {
-        const safeTitle = String(label).replace(/[<>&"]/g, '');
-        const safeSub = String(sublabel).replace(/[<>&"]/g, '');
+      /**
+       * Generates a clean, branded Swaadly fallback SVG card when a local image
+       * is not yet present in a preview environment, while allowing real './*.jpg'
+       * files to load directly on GitHub Pages.
+       */
+      function createBrandedFallback(title, filename, badgeText) {
+        const safeTitle = String(title).replace(/[<>&"]/g, '');
+        const safeFile = String(filename).replace(/[<>&"]/g, '');
+        const safeBadge = String(badgeText).replace(/[<>&"]/g, '');
         const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
-          <rect width="800" height="1000" fill="${accentBg}" />
-          <rect x="64" y="64" width="672" height="872" rx="28" fill="none" stroke="${accentFg}" stroke-width="3" stroke-dasharray="12 10" opacity="0.45" />
-          <text x="400" y="455" text-anchor="middle" fill="${accentFg}" font-family="Arial Black, sans-serif" font-size="34" font-weight="900">${safeTitle}</text>
-          <text x="400" y="505" text-anchor="middle" fill="${accentFg}" font-family="Arial, sans-serif" font-size="20" font-weight="700" opacity="0.8">${safeSub}</text>
-          <text x="400" y="560" text-anchor="middle" fill="${accentFg}" font-family="monospace" font-size="17" opacity="0.75">Replace imageSrc in POSTER_CONCEPTS</text>
+          <defs>
+            <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fff8ec" />
+              <stop offset="100%" stop-color="#ffebc2" />
+            </linearGradient>
+          </defs>
+          <rect width="800" height="1000" fill="url(#bgGrad)" />
+          <rect x="48" y="48" width="704" height="904" rx="36" fill="#fffdf9" stroke="#c27707" stroke-width="3" stroke-opacity="0.35" />
+          <rect x="255" y="160" width="290" height="44" rx="22" fill="#f5b82e" fill-opacity="0.28" />
+          <text x="400" y="189" text-anchor="middle" fill="#2d1a10" font-family="Arial, sans-serif" font-size="18" font-weight="700">${safeBadge}</text>
+          <text x="400" y="290" text-anchor="middle" fill="#1f120b" font-family="Arial Black, sans-serif" font-size="54" font-weight="900">Swaadly</text>
+          <line x1="230" y1="330" x2="570" y2="330" stroke="#c27707" stroke-width="2" stroke-opacity="0.4" />
+          <text x="400" y="425" text-anchor="middle" fill="#1f120b" font-family="Arial, sans-serif" font-size="32" font-weight="800">${safeTitle}</text>
+          <text x="400" y="475" text-anchor="middle" fill="#694430" font-family="Arial, sans-serif" font-size="20" font-weight="600">HEALTH THAT ACTUALLY TASTES GOOD.</text>
+          <rect x="130" y="565" width="540" height="110" rx="20" fill="#fff8ec" stroke="#1f120b" stroke-opacity="0.12" />
+          <text x="400" y="610" text-anchor="middle" fill="#694430" font-family="Arial, sans-serif" font-size="17" font-weight="700">GitHub Root Image Path</text>
+          <text x="400" y="644" text-anchor="middle" fill="#1f120b" font-family="monospace" font-size="22" font-weight="700">${safeFile}</text>
+          <text x="400" y="835" text-anchor="middle" fill="#694430" font-family="Arial, sans-serif" font-size="18" font-weight="700">100% ROASTED PEANUTS • NO PALM OIL</text>
         </svg>`;
         return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
       }
 
-      // All 5 Generated Poster Concepts — edit `imageSrc` here to plug in your photos
-      const POSTER_CONCEPTS = [
+      /**
+       * All 5 Swaadly posters mapped directly to exact root repository filenames.
+       */
+      const POSTERS = [
         {
-          id: 'poster-classic-original',
+          id: 'classic-original',
           flavourId: 'classic-original',
           title: 'Classic Original Splash',
           flavour: 'Classic Original',
-          proteinSpec: '130g Protein Callout • White Lid',
-          packagingNotes:
-            'Tilted white-lid jar with golden peanut butter ribbons, roasted peanut halves, warm amber studio rim light, and bottom CTA bar.',
+          category: 'classic-natural',
+          imageSrc: './classic-original.jpg',
+          glowTint: 'rgba(245, 184, 46, 0.22)',
           headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
           subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
-          moodLabel: 'Classic Original Splash',
-          tint: 'rgba(245, 184, 46, 0.22)',
-          surfaceBg: '#fff8ea',
-          // GitHub repo path: ./posters/<exact-file-name.ext>
-          imageSrc: './posters/classic-original.jpg',
-          fallbackSrc: fallbackArtwork('Classic Original Splash', '4:5 Poster Slot 01', '#fff3d1', '#2d1a10'),
+          campaignCopy:
+            'Golden crunch and slow-roasted peanut aroma come together in the Classic Original poster—crafted to pair everyday snacking with clean, honest ingredients.',
+          nutritionHighlights: [
+            '130g Protein callout featured on packaging',
+            'Made with 100% roasted peanuts',
+            'No palm oil and no artificial preservatives'
+          ],
           caption:
-            'Golden crunch & real roasted peanut energy — presenting the Classic Original poster concept for Swaadly! #Swaadly #PeanutButter #ClassicOriginal #PosterDesign'
-        },
-        {
-          id: 'poster-creamy-chocolate',
-          flavourId: 'creamy-chocolate',
-          title: 'Creamy Chocolate Splash',
-          flavour: 'Creamy Chocolate',
-          proteinSpec: '110g Protein Callout • White Lid',
-          packagingNotes:
-            'Smooth velvety ribbons of chocolate and creamy peanut butter swirling around the Creamy Chocolate jar with warm studio lighting.',
-          headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
-          subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
-          moodLabel: 'Creamy Chocolate Splash',
-          tint: 'rgba(217, 119, 30, 0.20)',
-          surfaceBg: '#fff5e6',
-          // GitHub repo path: ./posters/<exact-file-name.ext>
-          imageSrc: './posters/creamy-chocolate.jpg',
-          fallbackSrc: fallbackArtwork('Creamy Chocolate Splash', '4:5 Poster Slot 02', '#ffebd2', '#2d1a10'),
-          caption:
-            'Smooth, creamy chocolate meets roasted peanut goodness in this Swaadly Creamy Chocolate poster concept. #Swaadly #CreamyChocolate #D2CShowcase'
-        },
-        {
-          id: 'poster-all-natural',
-          flavourId: 'all-naturals',
-          title: 'All Natural Splash',
-          flavour: 'All Natural',
-          proteinSpec: '100% Peanuts Badge • Green Band',
-          packagingNotes:
-            'All Natural Crunchy Peanut Butter jar highlighted with golden peanut butter swirls, whole & split roasted peanuts, and clean nutrition badges.',
-          headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
-          subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
-          moodLabel: 'All Natural Splash',
-          tint: 'rgba(245, 184, 46, 0.24)',
-          surfaceBg: '#fff9eb',
-          // GitHub repo path: ./posters/<exact-file-name.ext>
-          imageSrc: './posters/all-natural.jpg',
-          fallbackSrc: fallbackArtwork('All Natural Splash', '4:5 Poster Slot 03', '#fff6d8', '#2d1a10'),
-          caption:
-            '100% peanuts, zero nonsense — here is the All Natural splash poster concept for Swaadly! #Swaadly #AllNatural #RoastedPeanuts'
-        },
-        {
-          id: 'poster-choco-crunchy-white',
-          flavourId: 'choco-crunchy',
-          title: 'Chocolate Crunchy Splash (White Lid)',
-          flavour: 'Chocolate Crunchy',
-          proteinSpec: '110g Protein Callout • White Lid',
-          packagingNotes:
-            'White-lid Chocolate Crunchy jar surrounded by rich cocoa swirls, peanut butter waves, roasted peanuts, and dark chocolate chunks.',
-          headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
-          subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
-          moodLabel: 'Choco Crunchy (White Lid)',
-          tint: 'rgba(217, 119, 30, 0.20)',
-          surfaceBg: '#fff6e8',
-          // GitHub repo path: ./posters/<exact-file-name.ext>
-          imageSrc: './posters/choco-crunchy-white.jpg',
-          fallbackSrc: fallbackArtwork('Chocolate Crunchy (White Lid)', '4:5 Poster Slot 04', '#ffeed8', '#2d1a10'),
-          caption:
-            'Crunchy cocoa & roasted peanuts in motion — white-lid Chocolate Crunchy poster concept for Swaadly! #Swaadly #ChocolateCrunchy'
-        },
-        {
-          id: 'poster-high-protein-dark-choco',
-          flavourId: 'dark-choco-protein',
-          title: 'High Protein Dark Chocolate Splash',
-          flavour: 'Crunchy Dark Chocolate (High Protein)',
-          proteinSpec: '30% Protein / 225g–500g Lineup',
-          packagingNotes:
-            'High-protein dark chocolate & peanut butter splash with dark cocoa chunks, roasted peanuts, gold badges, and strong bottom CTA.',
-          headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
-          subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
-          moodLabel: 'High Protein Dark Choco',
-          tint: 'rgba(184, 93, 18, 0.20)',
-          surfaceBg: '#fff3e2',
-          // GitHub repo path: ./posters/<exact-file-name.ext>
-          imageSrc: './posters/high-protein-dark-choco.jpg',
-          fallbackSrc: fallbackArtwork('High Protein Dark Choco', '4:5 Poster Slot 05', '#ffe7cc', '#2d1a10'),
-          caption:
-            '30% protein + rich dark chocolate crunch — exploring a bold ad poster direction for Swaadly! #Swaadly #HighProtein #DarkChocolate'
-        }
-      ];
-
-      // Full 5-Flavour Lineup
-      const FLAVOUR_LINEUP = [
-        {
-          id: 'classic-original',
-          name: 'Classic Original 500g',
-          tag: 'Everyday Crunch',
-          packPrice: '₹349 / jar',
-          summary: 'Slow-roasted peanut crunch with a balanced, nutty everyday taste for toast, oats, and quick spoonfuls.'
+            'Real peanuts, zero nonsense — Classic Original Splash poster concept for Swaadly! #Swaadly #PeanutButter #ClassicOriginal'
         },
         {
           id: 'creamy-chocolate',
-          name: 'Creamy Chocolate 500g',
-          tag: 'Best Seller Vibe',
-          packPrice: '₹399 / jar',
-          summary: 'Velvety chocolate spread blended with roasted peanuts for a smooth, dessert-like healthy alternative.'
+          flavourId: 'creamy-chocolate',
+          title: 'Creamy Chocolate Splash',
+          flavour: 'Creamy Chocolate',
+          category: 'chocolate',
+          imageSrc: './creamy-chocolate.jpg',
+          glowTint: 'rgba(217, 119, 30, 0.20)',
+          headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
+          subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
+          campaignCopy:
+            'Velvety chocolate waves and smooth roasted peanut ribbons frame the Creamy Chocolate jar for an indulgent yet wholesome D2C visual story.',
+          nutritionHighlights: [
+            '110g Protein callout featured on jar',
+            'Smooth creamy chocolate & peanut blend',
+            'No palm oil added'
+          ],
+          caption:
+            'Smooth chocolate & roasted peanuts in every swirl — Creamy Chocolate poster concept for Swaadly! #Swaadly #CreamyChocolate'
         },
         {
-          id: 'all-naturals',
-          name: 'All Naturals 500g',
-          tag: '100% Roasted Peanuts',
-          packPrice: '₹299 / jar',
-          summary: 'Pure, simple roasted peanut goodness with no palm oil or unnecessary additives.'
+          id: 'all-natural',
+          flavourId: 'all-natural',
+          title: 'All Natural Splash',
+          flavour: 'All Natural',
+          category: 'classic-natural',
+          imageSrc: './all-natural.jpg',
+          glowTint: 'rgba(245, 184, 46, 0.24)',
+          headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
+          subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
+          campaignCopy:
+            'Highlighting pure, unadulterated peanut goodness with a crisp green All Natural band, roasted peanut halves, and bold golden studio highlights.',
+          nutritionHighlights: [
+            '100% Peanuts badge & natural formulation',
+            'No palm oil and no unnecessary fillers',
+            'Clean everyday crunch for toast and bowls'
+          ],
+          caption:
+            'Pure 100% roasted peanut crunch — All Natural poster concept for Swaadly! #Swaadly #AllNatural #RoastedPeanuts'
         },
         {
-          id: 'choco-crunchy',
-          name: 'Chocolate Crunchy 500g',
-          tag: 'Cocoa + Crunch',
-          packPrice: '₹399 / jar',
-          summary: 'Rich cocoa flavor paired with crunchy peanut bits for extra texture in shakes and bowls.'
+          id: 'choco-crunchy-white',
+          flavourId: 'choco-crunchy-white',
+          title: 'Chocolate Crunchy Splash (White Lid)',
+          flavour: 'Chocolate Crunchy',
+          category: 'chocolate',
+          imageSrc: './choco-crunchy-white.jpg',
+          glowTint: 'rgba(217, 119, 30, 0.22)',
+          headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
+          subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
+          campaignCopy:
+            'Rich cocoa swirls, crunchy peanut bits, and dark chocolate chunks surround the white-lid Chocolate Crunchy jar for high-energy visual contrast.',
+          nutritionHighlights: [
+            '110g Protein callout with crunchy texture',
+            '100% roasted peanuts & rich cocoa notes',
+            'No palm oil'
+          ],
+          caption:
+            'Crunchy cocoa & roasted peanut energy — Chocolate Crunchy (White Lid) poster concept for Swaadly! #Swaadly #ChocolateCrunchy'
         },
         {
-          id: 'dark-choco-protein',
-          name: 'Dark Chocolate High Protein',
-          tag: 'High Protein Lineup',
-          packPrice: '₹429 / jar',
-          summary: 'High-protein dark chocolate crunchy option crafted for active routines and strength goals.'
+          id: 'high-protein-dark-choco',
+          flavourId: 'high-protein-dark-choco',
+          title: 'High Protein Dark Chocolate Splash',
+          flavour: 'High Protein Dark Chocolate',
+          category: 'high-protein',
+          imageSrc: './high-protein-dark-choco.jpg',
+          glowTint: 'rgba(184, 93, 18, 0.22)',
+          headline: 'HEALTH THAT ACTUALLY TASTES GOOD.',
+          subheadline: 'REAL PEANUTS. ZERO NONSENSE.',
+          campaignCopy:
+            'Designed around high-protein performance and bold dark chocolate crunch—combining strength callouts with dynamic studio splash motion.',
+          nutritionHighlights: [
+            '30% Protein high-protein callout',
+            'Crunchy dark chocolate & roasted peanut blend',
+            'No palm oil or preservatives'
+          ],
+          caption:
+            'High protein + dark chocolate crunch — exploring a bold campaign poster for Swaadly! #Swaadly #HighProtein #DarkChocolate'
+        }
+      ].map((item) => ({
+        ...item,
+        fallbackSrc: createBrandedFallback(item.title, item.imageSrc, item.flavour)
+      }));
+
+      /**
+       * Flavour cards linked directly to each of the 5 posters.
+       */
+      const FLAVOURS = [
+        {
+          id: 'classic-original',
+          posterId: 'classic-original',
+          name: 'Classic Original',
+          badge: 'Everyday Classic',
+          price: '₹349 / jar',
+          description: 'Balanced, crunchy roasted peanut butter suited for daily breakfast toast, oats, and quick spoonfuls.'
+        },
+        {
+          id: 'creamy-chocolate',
+          posterId: 'creamy-chocolate',
+          name: 'Creamy Chocolate',
+          badge: 'Smooth & Rich',
+          price: '₹399 / jar',
+          description: 'Silky chocolate meets roasted peanut butter for a dessert-inspired spread without palm oil.'
+        },
+        {
+          id: 'all-natural',
+          posterId: 'all-natural',
+          name: 'All Natural',
+          badge: '100% Peanuts',
+          price: '₹299 / jar',
+          description: 'Straightforward, clean roasted peanut crunch made for purists who want zero fuss.'
+        },
+        {
+          id: 'choco-crunchy-white',
+          posterId: 'choco-crunchy-white',
+          name: 'Chocolate Crunchy',
+          badge: 'Cocoa Crunch',
+          price: '₹399 / jar',
+          description: 'Chocolate-rich peanut butter packed with crunchy texture for shakes, pancakes, and snacking.'
+        },
+        {
+          id: 'high-protein-dark-choco',
+          posterId: 'high-protein-dark-choco',
+          name: 'High Protein Dark Chocolate',
+          badge: '30% Protein',
+          price: '₹429 / jar',
+          description: 'Deep dark chocolate and crunchy roasted peanuts tailored for active and fitness-focused routines.'
         }
       ];
 
-      // Comparison rows
+      /**
+       * Nutrition & comparison rows with filter categories.
+       */
       const COMPARISON_ROWS = [
         {
-          category: 'convenience',
-          feature: 'Ready to Eat',
+          group: 'convenience',
+          criterion: 'Ready to Eat',
           swaadly: 'Yes',
           otherPb: 'Yes',
           redMeat: 'No',
-          homeFood: 'No'
+          homeCooked: 'No'
         },
         {
-          category: 'clean',
-          feature: '100% Natural Ingredients',
+          group: 'clean',
+          criterion: '100% Natural Ingredients',
           swaadly: 'Yes',
           otherPb: 'No',
           redMeat: 'Yes',
-          homeFood: 'Yes'
+          homeCooked: 'Yes'
         },
         {
-          category: 'clean',
-          feature: 'High in Protein',
+          group: 'clean',
+          criterion: 'High in Protein',
           swaadly: 'Yes',
           otherPb: 'Rarely',
           redMeat: 'Yes',
-          homeFood: 'Yes'
+          homeCooked: 'Yes'
         },
         {
-          category: 'clean',
-          feature: 'No Palm Oil & Refined Sugar',
+          group: 'clean',
+          criterion: 'No Palm Oil & Refined Sugar',
           swaadly: 'Yes',
           otherPb: 'No',
           redMeat: 'Yes',
-          homeFood: 'Yes'
+          homeCooked: 'Yes'
         },
         {
-          category: 'convenience',
-          feature: 'Cook + Clean Time',
+          group: 'convenience',
+          criterion: 'Cook + Clean Time',
           swaadly: 'None, ready to eat!',
           otherPb: 'Ready to eat',
           redMeat: '30–45 min',
-          homeFood: '10–45 min'
+          homeCooked: '10–45 min'
         },
         {
-          category: 'convenience',
-          feature: 'Shelf Life',
+          group: 'convenience',
+          criterion: 'Shelf Life',
           swaadly: 'Long',
           otherPb: 'Long',
           redMeat: 'Short',
-          homeFood: 'Short'
+          homeCooked: 'Short'
         }
       ];
 
-      const appState = {
-        selectedPosterId: POSTER_CONCEPTS[0].id,
-        selectedFlavourId: FLAVOUR_LINEUP[0].id,
-        comparisonFilter: 'all'
+      const state = {
+        activePosterId: POSTERS[0].id,
+        posterCategoryFilter: 'all',
+        nutritionFilter: 'all'
       };
 
+      function getPosterById(id) {
+        return POSTERS.find((p) => p.id === id) || POSTERS[0];
+      }
+
+      /**
+       * Attaches a resilient fallback handler so missing preview files render a
+       * branded Swaadly visual card instead of a broken image icon.
+       */
+      function applyImageWithFallback(imgEl, poster) {
+        if (!imgEl || !poster) return;
+        imgEl.onerror = function () {
+          this.onerror = null;
+          this.src = poster.fallbackSrc;
+        };
+        imgEl.src = poster.imageSrc;
+        imgEl.alt = `${poster.title} (${poster.imageSrc})`;
+      }
+
       let toastTimer = null;
-      function showToast(message) {
-        const toast = document.getElementById('toastBanner');
+      function showToast(text) {
+        const toast = document.getElementById('toastMessage');
         if (!toast) return;
-        toast.textContent = message;
+        toast.textContent = text;
         toast.classList.remove('opacity-0', 'translate-y-4');
         toast.classList.add('opacity-100', 'translate-y-0');
-
         if (toastTimer) clearTimeout(toastTimer);
         toastTimer = setTimeout(() => {
           toast.classList.remove('opacity-100', 'translate-y-0');
@@ -874,111 +956,90 @@
         }, 2200);
       }
 
-      function copyTextSafe(text, successMsg) {
+      function copyToClipboard(text, message) {
         try {
           if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
             navigator.clipboard.writeText(text).catch(() => {});
           }
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          textarea.setAttribute('readonly', '');
-          textarea.style.position = 'fixed';
-          textarea.style.opacity = '0';
-          document.body.appendChild(textarea);
-          textarea.select();
+          const helper = document.createElement('textarea');
+          helper.value = text;
+          helper.setAttribute('readonly', '');
+          helper.style.position = 'fixed';
+          helper.style.opacity = '0';
+          document.body.appendChild(helper);
+          helper.select();
           document.execCommand('copy');
-          document.body.removeChild(textarea);
-          showToast(successMsg || 'Copied!');
-        } catch (err) {
-          showToast('Could not copy automatically.');
+          document.body.removeChild(helper);
+          showToast(message || 'Copied!');
+        } catch (_err) {
+          showToast('Copy failed.');
         }
       }
 
-      function getSelectedPoster() {
-        return POSTER_CONCEPTS.find((p) => p.id === appState.selectedPosterId) || POSTER_CONCEPTS[0];
-      }
+      function renderHeroSwitcher() {
+        const wrap = document.getElementById('heroPosterSwitcher');
+        if (!wrap) return;
 
-      function renderMoodSwitcher() {
-        const container = document.getElementById('moodSwitcherGroup');
-        if (!container) return;
-
-        container.innerHTML = POSTER_CONCEPTS.map((p) => {
-          const isActive = p.id === appState.selectedPosterId;
+        wrap.innerHTML = POSTERS.map((p) => {
+          const active = p.id === state.activePosterId;
           return `
             <button
               type="button"
-              data-mood-poster="${p.id}"
+              data-hero-select="${p.id}"
               class="min-h-[38px] rounded-xl px-3 py-1.5 text-xs font-bold transition ${
-                isActive
-                  ? 'bg-ink-950 text-sunlit-50 shadow-sm'
-                  : 'border border-ink-950/15 bg-white text-ink-950 hover:border-honey-600/50 hover:bg-sunlit-100'
+                active
+                  ? 'bg-cocoa-950 text-linen-50 shadow-sm'
+                  : 'border border-cocoa-950/15 bg-white text-cocoa-950 hover:border-honey-600/50 hover:bg-linen-100'
               }"
             >
-              ${p.moodLabel}
+              ${p.flavour}
             </button>
           `;
         }).join('');
 
-        container.addEventListener('click', (e) => {
-          const btn = e.target.closest('button[data-mood-poster]');
+        wrap.addEventListener('click', (e) => {
+          const btn = e.target.closest('button[data-hero-select]');
           if (!btn) return;
-          appState.selectedPosterId = btn.dataset.moodPoster;
-          const poster = getSelectedPoster();
-          appState.selectedFlavourId = poster.flavourId;
-          syncStateUI();
+          state.activePosterId = btn.dataset.heroSelect;
+          syncHeroAndModal();
         });
       }
 
-      function syncStateUI() {
-        const poster = getSelectedPoster();
+      function syncHeroAndModal() {
+        const poster = getPosterById(state.activePosterId);
+        document.documentElement.style.setProperty('--ambient-glow', poster.glowTint);
 
-        document.documentElement.style.setProperty('--mood-tint', poster.tint);
+        const badge = document.getElementById('heroActiveBadge');
+        const tag = document.getElementById('heroCardTag');
+        const fileEl = document.getElementById('heroCardFile');
+        const titleEl = document.getElementById('heroFeaturedTitle');
+        const headlineEl = document.getElementById('heroFeaturedHeadline');
+        const heroImg = document.getElementById('heroFeaturedImg');
 
-        const activeBadge = document.getElementById('activeMoodBadge');
-        const spotProtein = document.getElementById('heroSpotProtein');
-        const spotHeadline = document.getElementById('heroSpotHeadline');
-        const spotSubline = document.getElementById('heroSpotSubline');
-        const spotNotes = document.getElementById('heroSpotNotes');
-        const spotTitle = document.getElementById('heroSpotTitle');
-        const spotPack = document.getElementById('heroSpotPack');
-        const visualBox = document.getElementById('heroSpotVisualBox');
-        const heroImg = document.getElementById('heroSpotPosterImg');
+        if (badge) badge.textContent = poster.title;
+        if (tag) tag.textContent = poster.flavour;
+        if (fileEl) fileEl.textContent = poster.imageSrc;
+        if (titleEl) titleEl.textContent = poster.title;
+        if (headlineEl) headlineEl.textContent = poster.headline;
+        applyImageWithFallback(heroImg, poster);
 
-        if (activeBadge) activeBadge.textContent = poster.moodLabel;
-        if (spotProtein) spotProtein.textContent = poster.proteinSpec.split('•')[0].trim();
-        if (spotHeadline) spotHeadline.textContent = poster.headline;
-        if (spotSubline) spotSubline.textContent = poster.subheadline;
-        if (spotNotes) spotNotes.textContent = poster.packagingNotes;
-        if (spotTitle) spotTitle.textContent = poster.title;
-        if (spotPack) spotPack.textContent = poster.proteinSpec;
-
-        if (visualBox) visualBox.style.backgroundColor = poster.surfaceBg;
-        if (heroImg) {
-          heroImg.onerror = function () {
-            this.onerror = null;
-            this.src = poster.fallbackSrc;
-          };
-          heroImg.src = poster.imageSrc;
-          heroImg.alt = `${poster.title} — ${poster.flavour}`;
-        }
-
-        document.querySelectorAll('#moodSwitcherGroup button[data-mood-poster]').forEach((btn) => {
-          const active = btn.dataset.moodPoster === poster.id;
+        document.querySelectorAll('#heroPosterSwitcher button[data-hero-select]').forEach((btn) => {
+          const isCurrent = btn.dataset.heroSelect === poster.id;
           btn.className = `min-h-[38px] rounded-xl px-3 py-1.5 text-xs font-bold transition ${
-            active
-              ? 'bg-ink-950 text-sunlit-50 shadow-sm'
-              : 'border border-ink-950/15 bg-white text-ink-950 hover:border-honey-600/50 hover:bg-sunlit-100'
+            isCurrent
+              ? 'bg-cocoa-950 text-linen-50 shadow-sm'
+              : 'border border-cocoa-950/15 bg-white text-cocoa-950 hover:border-honey-600/50 hover:bg-linen-100'
           }`;
         });
 
-        document.querySelectorAll('#flavourLineupGrid article[data-flavour-card]').forEach((card) => {
-          const isSelected = card.dataset.flavourCard === appState.selectedFlavourId;
-          card.classList.toggle('ring-2', isSelected);
-          card.classList.toggle('ring-honey-500', isSelected);
+        document.querySelectorAll('#flavourCardsGrid article[data-flavour-card]').forEach((card) => {
+          const match = card.dataset.flavourCard === poster.id;
+          card.classList.toggle('ring-2', match);
+          card.classList.toggle('ring-honey-500', match);
         });
 
-        if (document.getElementById('posterModal')?.classList.contains('flex')) {
-          syncModalContent();
+        if (document.getElementById('fullPosterModal')?.classList.contains('flex')) {
+          syncModalView();
         }
       }
 
@@ -986,41 +1047,45 @@
         const grid = document.getElementById('posterGalleryGrid');
         if (!grid) return;
 
-        grid.innerHTML = POSTER_CONCEPTS.map(
-          (p) => `
-          <article data-gallery-card="${p.id}" class="tactile-card flex flex-col justify-between rounded-[1.75rem] border border-ink-950/12 bg-white p-5 shadow-soft">
+        const filteredPosters =
+          state.posterCategoryFilter === 'all'
+            ? POSTERS
+            : POSTERS.filter((p) => p.category === state.posterCategoryFilter);
+
+        grid.innerHTML = filteredPosters
+          .map(
+            (p) => `
+          <article class="card-surface flex flex-col justify-between rounded-[1.75rem] border border-cocoa-950/12 bg-white p-5 shadow-warm">
             <div>
-              <div class="overflow-hidden rounded-2xl border border-ink-950/10 bg-sunlit-100" style="background-color: ${p.surfaceBg};">
-                <div class="aspect-[4/5] w-full overflow-hidden">
-                  <img
-                    src="${p.imageSrc}"
-                    data-fallback="${p.fallbackSrc}"
-                    alt="${p.title} (${p.flavour})"
-                    class="poster-slot-img h-full w-full object-cover object-center transition-transform duration-300 hover:scale-[1.03]"
-                  />
-                </div>
+              <div class="aspect-[4/5] w-full overflow-hidden rounded-2xl border border-cocoa-950/10 bg-linen-100">
+                <img
+                  data-poster-img="${p.id}"
+                  src="${p.imageSrc}"
+                  alt="${p.title}"
+                  class="h-full w-full object-cover object-center transition-transform duration-300 hover:scale-[1.03]"
+                />
               </div>
 
               <div class="mt-4 flex items-center justify-between gap-2">
-                <span class="rounded-full bg-sunlit-200 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-ink-950">
+                <span class="rounded-full bg-linen-200 px-3 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-cocoa-950">
                   ${p.flavour}
                 </span>
-                <span class="text-xs font-bold text-honey-600">${p.proteinSpec.split('•')[0].trim()}</span>
+                <span class="font-mono text-[11px] font-semibold text-cocoa-700">${p.imageSrc}</span>
               </div>
 
-              <h3 class="font-display-tight mt-2 text-lg font-extrabold text-ink-950">
+              <h3 class="font-display-tight mt-2 text-lg font-extrabold text-cocoa-950">
                 ${p.title}
               </h3>
-              <p class="mt-1.5 text-xs leading-relaxed text-ink-800">
-                ${p.packagingNotes}
+              <p class="mt-1.5 text-xs leading-relaxed text-cocoa-800">
+                ${p.campaignCopy}
               </p>
             </div>
 
-            <div class="mt-5 border-t border-ink-950/10 pt-3.5">
+            <div class="mt-5 border-t border-cocoa-950/10 pt-3.5">
               <button
                 type="button"
-                data-open-poster="${p.id}"
-                class="inline-flex min-h-[42px] w-full items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-honey-400 to-honey-500 px-4 py-2 text-xs font-extrabold text-ink-950 transition hover:brightness-105"
+                data-open-full-poster="${p.id}"
+                class="inline-flex min-h-[42px] w-full items-center justify-center gap-1.5 rounded-xl bg-gradient-to-r from-honey-400 to-honey-500 px-4 py-2 text-xs font-extrabold text-cocoa-950 transition hover:brightness-105"
               >
                 <span>View Full Poster</span>
                 <span aria-hidden="true">↗</span>
@@ -1028,186 +1093,200 @@
             </div>
           </article>
         `
-        ).join('');
+          )
+          .join('');
 
-        grid.querySelectorAll('img.poster-slot-img').forEach((img) => {
-          img.addEventListener('error', function () {
-            if (this.dataset.fallback && this.src !== this.dataset.fallback) {
-              this.src = this.dataset.fallback;
-            }
-          });
-        });
-
-        grid.addEventListener('click', (e) => {
-          const btn = e.target.closest('button[data-open-poster]');
-          if (!btn) return;
-          appState.selectedPosterId = btn.dataset.openPoster;
-          appState.selectedFlavourId = getSelectedPoster().flavourId;
-          syncStateUI();
-          openPosterModal();
+        filteredPosters.forEach((p) => {
+          const img = grid.querySelector(`img[data-poster-img="${p.id}"]`);
+          applyImageWithFallback(img, p);
         });
       }
 
-      function renderFlavourLineup() {
-        const grid = document.getElementById('flavourLineupGrid');
+      function setupPosterFilters() {
+        const bar = document.getElementById('posterFilterBar');
+        const grid = document.getElementById('posterGalleryGrid');
+        if (!bar || !grid) return;
+
+        bar.addEventListener('click', (e) => {
+          const btn = e.target.closest('button[data-poster-filter]');
+          if (!btn) return;
+          state.posterCategoryFilter = btn.dataset.posterFilter;
+
+          bar.querySelectorAll('button[data-poster-filter]').forEach((b) => {
+            const active = b.dataset.posterFilter === state.posterCategoryFilter;
+            b.className = `poster-filter-btn min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-extrabold transition ${
+              active
+                ? 'bg-cocoa-950 text-linen-50'
+                : 'border border-cocoa-950/15 bg-white text-cocoa-950 hover:border-honey-600/50'
+            }`;
+          });
+
+          renderPosterGallery();
+        });
+
+        grid.addEventListener('click', (e) => {
+          const openBtn = e.target.closest('button[data-open-full-poster]');
+          if (!openBtn) return;
+          state.activePosterId = openBtn.dataset.openFullPoster;
+          syncHeroAndModal();
+          openFullPosterModal();
+        });
+      }
+
+      function renderFlavourCards() {
+        const grid = document.getElementById('flavourCardsGrid');
         if (!grid) return;
 
-        grid.innerHTML = FLAVOUR_LINEUP.map((f) => {
-          const linkedPoster = POSTER_CONCEPTS.find((p) => p.flavourId === f.id) || POSTER_CONCEPTS[0];
+        grid.innerHTML = FLAVOURS.map((f) => {
+          const poster = getPosterById(f.posterId);
           return `
-            <article data-flavour-card="${f.id}" class="tactile-card flex flex-col justify-between rounded-3xl border border-ink-950/12 bg-white p-5 shadow-soft">
+            <article data-flavour-card="${f.posterId}" class="card-surface flex flex-col justify-between rounded-3xl border border-cocoa-950/12 bg-white p-5 shadow-warm">
               <div>
                 <div class="flex items-center justify-between gap-2">
-                  <span class="rounded-full bg-sunlit-200 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-ink-950">
-                    ${f.tag}
+                  <span class="rounded-full bg-linen-200 px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider text-cocoa-950">
+                    ${f.badge}
                   </span>
-                  <span class="font-display-tight text-sm font-extrabold text-ink-950">
-                    ${f.packPrice}
-                  </span>
+                  <span class="font-display-tight text-sm font-extrabold text-cocoa-950">${f.price}</span>
                 </div>
 
                 <div class="mt-4 flex items-center gap-3.5">
                   <img
-                    src="${linkedPoster.imageSrc}"
-                    data-fallback="${linkedPoster.fallbackSrc}"
-                    alt="${f.name} Poster Thumbnail"
-                    class="flavour-thumb-img h-16 w-14 shrink-0 rounded-xl border border-ink-950/15 object-cover shadow-sm"
+                    data-flavour-thumb="${f.id}"
+                    src="${poster.imageSrc}"
+                    alt="${f.name}"
+                    class="h-16 w-14 shrink-0 rounded-xl border border-cocoa-950/15 object-cover shadow-sm"
                   />
-                  <h3 class="font-display-tight text-lg font-extrabold text-ink-950">${f.name}</h3>
+                  <h3 class="font-display-tight text-lg font-extrabold text-cocoa-950">${f.name}</h3>
                 </div>
 
-                <p class="mt-3 text-sm leading-relaxed text-ink-800">${f.summary}</p>
+                <p class="mt-3 text-sm leading-relaxed text-cocoa-800">${f.description}</p>
               </div>
 
-              <div class="mt-5 flex items-center justify-between gap-2 border-t border-ink-950/10 pt-3.5">
+              <div class="mt-5 flex items-center justify-between gap-2 border-t border-cocoa-950/10 pt-3.5">
                 <button
                   type="button"
-                  data-select-flavour="${f.id}"
-                  class="min-h-[38px] rounded-xl border border-ink-950/15 bg-sunlit-100 px-3.5 py-2 text-xs font-extrabold text-ink-950 transition hover:border-honey-600/50"
+                  data-spotlight-flavour="${f.posterId}"
+                  class="min-h-[38px] rounded-xl border border-cocoa-950/15 bg-linen-100 px-3.5 py-2 text-xs font-extrabold text-cocoa-950 transition hover:border-honey-600/50"
                 >
-                  Select Mood
+                  Spotlight Poster
                 </button>
                 <button
                   type="button"
-                  data-inspect-flavour="${f.id}"
+                  data-modal-flavour="${f.posterId}"
                   class="min-h-[38px] text-xs font-extrabold text-honey-600 underline-offset-4 hover:underline"
                 >
-                  View Full Poster →
+                  Full Poster →
                 </button>
               </div>
             </article>
           `;
         }).join('');
 
-        grid.querySelectorAll('img.flavour-thumb-img').forEach((img) => {
-          img.addEventListener('error', function () {
-            if (this.dataset.fallback && this.src !== this.dataset.fallback) {
-              this.src = this.dataset.fallback;
-            }
-          });
+        FLAVOURS.forEach((f) => {
+          const thumb = grid.querySelector(`img[data-flavour-thumb="${f.id}"]`);
+          applyImageWithFallback(thumb, getPosterById(f.posterId));
         });
 
         grid.addEventListener('click', (e) => {
-          const selectBtn = e.target.closest('button[data-select-flavour]');
-          if (selectBtn) {
-            const flavourId = selectBtn.dataset.selectFlavour;
-            appState.selectedFlavourId = flavourId;
-            const matchPoster = POSTER_CONCEPTS.find((p) => p.flavourId === flavourId);
-            if (matchPoster) appState.selectedPosterId = matchPoster.id;
-            syncStateUI();
-            showToast('Flavour mood updated!');
+          const spotBtn = e.target.closest('button[data-spotlight-flavour]');
+          if (spotBtn) {
+            state.activePosterId = spotBtn.dataset.spotlightFlavour;
+            syncHeroAndModal();
+            showToast('Hero poster updated!');
             return;
           }
 
-          const inspectBtn = e.target.closest('button[data-inspect-flavour]');
-          if (inspectBtn) {
-            const flavourId = inspectBtn.dataset.inspectFlavour;
-            appState.selectedFlavourId = flavourId;
-            const matchPoster = POSTER_CONCEPTS.find((p) => p.flavourId === flavourId) || POSTER_CONCEPTS[0];
-            appState.selectedPosterId = matchPoster.id;
-            syncStateUI();
-            openPosterModal();
+          const modalBtn = e.target.closest('button[data-modal-flavour]');
+          if (modalBtn) {
+            state.activePosterId = modalBtn.dataset.modalFlavour;
+            syncHeroAndModal();
+            openFullPosterModal();
           }
         });
       }
 
-      function renderComparisonTable() {
-        const tbody = document.getElementById('comparisonTableBody');
+      function renderNutritionTable() {
+        const tbody = document.getElementById('nutritionTableBody');
         if (!tbody) return;
 
-        const filtered =
-          appState.comparisonFilter === 'all'
+        const rows =
+          state.nutritionFilter === 'all'
             ? COMPARISON_ROWS
-            : COMPARISON_ROWS.filter((r) => r.category === appState.comparisonFilter);
+            : COMPARISON_ROWS.filter((r) => r.group === state.nutritionFilter);
 
-        tbody.innerHTML = filtered
+        tbody.innerHTML = rows
           .map(
-            (row) => `
-          <tr class="transition hover:bg-sunlit-100/50">
-            <td class="px-5 py-3.5 font-bold text-ink-950">${row.feature}</td>
-            <td class="bg-honey-400/15 px-5 py-3.5 font-extrabold text-ink-950">${row.swaadly}</td>
-            <td class="px-5 py-3.5">${row.otherPb}</td>
-            <td class="px-5 py-3.5">${row.redMeat}</td>
-            <td class="px-5 py-3.5">${row.homeFood}</td>
+            (r) => `
+          <tr class="transition hover:bg-linen-100/60">
+            <td class="px-5 py-3.5 font-bold text-cocoa-950">${r.criterion}</td>
+            <td class="bg-honey-400/15 px-5 py-3.5 font-extrabold text-cocoa-950">${r.swaadly}</td>
+            <td class="px-5 py-3.5">${r.otherPb}</td>
+            <td class="px-5 py-3.5">${r.redMeat}</td>
+            <td class="px-5 py-3.5">${r.homeCooked}</td>
           </tr>
         `
           )
           .join('');
       }
 
-      function setupComparisonFilters() {
-        const group = document.getElementById('comparisonFilterGroup');
-        if (!group) return;
+      function setupNutritionFilters() {
+        const bar = document.getElementById('nutritionFilterBar');
+        if (!bar) return;
 
-        group.addEventListener('click', (e) => {
-          const btn = e.target.closest('button[data-filter]');
+        bar.addEventListener('click', (e) => {
+          const btn = e.target.closest('button[data-nutri-filter]');
           if (!btn) return;
-          appState.comparisonFilter = btn.dataset.filter;
+          state.nutritionFilter = btn.dataset.nutriFilter;
 
-          group.querySelectorAll('button[data-filter]').forEach((b) => {
-            const isActive = b.dataset.filter === appState.comparisonFilter;
-            b.className = `filter-btn min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-extrabold transition ${
-              isActive
-                ? 'bg-ink-950 text-sunlit-50'
-                : 'border border-ink-950/15 bg-white text-ink-950 hover:border-honey-600/50'
+          bar.querySelectorAll('button[data-nutri-filter]').forEach((b) => {
+            const active = b.dataset.nutriFilter === state.nutritionFilter;
+            b.className = `nutri-filter-btn min-h-[40px] rounded-xl px-3.5 py-2 text-xs font-extrabold transition ${
+              active
+                ? 'bg-cocoa-950 text-linen-50'
+                : 'border border-cocoa-950/15 bg-white text-cocoa-950 hover:border-honey-600/50'
             }`;
           });
 
-          renderComparisonTable();
+          renderNutritionTable();
         });
       }
 
-      function syncModalContent() {
-        const poster = getSelectedPoster();
-        const modalImg = document.getElementById('modalPosterFullImg');
-        if (modalImg) {
-          modalImg.onerror = function () {
-            this.onerror = null;
-            this.src = poster.fallbackSrc;
-          };
-          modalImg.src = poster.imageSrc;
-          modalImg.alt = `${poster.title} Full Poster`;
-        }
+      function syncModalView() {
+        const poster = getPosterById(state.activePosterId);
 
-        const titleEl = document.getElementById('modalPosterTitle');
-        const pillEl = document.getElementById('modalFlavourPill');
-        const headEl = document.getElementById('modalHeadline');
-        const subEl = document.getElementById('modalSubheadline');
-        const specEl = document.getElementById('modalProteinSpec');
-        const notesEl = document.getElementById('modalPackagingNotes');
-        const captionEl = document.getElementById('modalCaptionBox');
-        const tabsEl = document.getElementById('modalPosterTabs');
+        const titleEl = document.getElementById('modalTitleHeading');
+        const badgeEl = document.getElementById('modalFlavourBadge');
+        const fileEl = document.getElementById('modalAssetName');
+        const headEl = document.getElementById('modalAdHeadline');
+        const subEl = document.getElementById('modalAdSubheadline');
+        const copyEl = document.getElementById('modalCampaignCopy');
+        const listEl = document.getElementById('modalNutritionList');
+        const imgEl = document.getElementById('modalFullPosterImg');
+        const tabsEl = document.getElementById('modalPosterSwitcher');
 
         if (titleEl) titleEl.textContent = poster.title;
-        if (pillEl) pillEl.textContent = poster.flavour;
+        if (badgeEl) badgeEl.textContent = poster.flavour;
+        if (fileEl) fileEl.textContent = poster.imageSrc;
         if (headEl) headEl.textContent = poster.headline;
         if (subEl) subEl.textContent = poster.subheadline;
-        if (specEl) specEl.textContent = poster.proteinSpec;
-        if (notesEl) notesEl.textContent = poster.packagingNotes;
-        if (captionEl) captionEl.textContent = poster.caption;
+        if (copyEl) copyEl.textContent = poster.campaignCopy;
+        applyImageWithFallback(imgEl, poster);
+
+        if (listEl) {
+          listEl.innerHTML = poster.nutritionHighlights
+            .map(
+              (point) => `
+              <li class="flex items-start gap-2">
+                <span class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-honey-500"></span>
+                <span>${point}</span>
+              </li>
+            `
+            )
+            .join('');
+        }
 
         if (tabsEl) {
-          tabsEl.innerHTML = POSTER_CONCEPTS.map((p) => {
+          tabsEl.innerHTML = POSTERS.map((p) => {
             const active = p.id === poster.id;
             return `
               <button
@@ -1215,8 +1294,8 @@
                 data-modal-tab="${p.id}"
                 class="min-h-[36px] rounded-xl px-3 py-1.5 text-xs font-extrabold transition ${
                   active
-                    ? 'bg-ink-950 text-sunlit-50'
-                    : 'border border-ink-950/15 bg-white text-ink-950 hover:border-honey-600/50'
+                    ? 'bg-cocoa-950 text-linen-50'
+                    : 'border border-cocoa-950/15 bg-white text-cocoa-950 hover:border-honey-600/50'
                 }"
               >
                 ${p.flavour}
@@ -1226,88 +1305,118 @@
         }
       }
 
-      function openPosterModal() {
-        const modal = document.getElementById('posterModal');
+      function openFullPosterModal() {
+        const modal = document.getElementById('fullPosterModal');
         if (!modal) return;
-        syncModalContent();
+        syncModalView();
         modal.classList.remove('hidden');
         modal.classList.add('flex');
       }
 
-      function closePosterModal() {
-        const modal = document.getElementById('posterModal');
+      function closeFullPosterModal() {
+        const modal = document.getElementById('fullPosterModal');
         if (!modal) return;
         modal.classList.add('hidden');
         modal.classList.remove('flex');
       }
 
-      function setupModalEvents() {
-        const modal = document.getElementById('posterModal');
-        const closeBtn = document.getElementById('closeModalBtn');
-        const tabsEl = document.getElementById('modalPosterTabs');
-        const copyCaptionBtn = document.getElementById('copyModalCaptionBtn');
-        const openHeaderBtn = document.getElementById('openInspectorHeaderBtn');
-        const heroInspectBtn = document.getElementById('heroSpotInspectBtn');
-        const heroCopyBtn = document.getElementById('heroCopyPromptBtn');
-        const recipeJarBtn = document.getElementById('recipeInspectJarBtn');
+      function setupMobileNav() {
+        const toggleBtn = document.getElementById('mobileMenuToggleBtn');
+        const drawer = document.getElementById('mobileNavDrawer');
+        const icon = document.getElementById('mobileMenuIcon');
+        if (!toggleBtn || !drawer) return;
 
-        if (openHeaderBtn) openHeaderBtn.addEventListener('click', openPosterModal);
-        if (heroInspectBtn) heroInspectBtn.addEventListener('click', openPosterModal);
-        if (closeBtn) closeBtn.addEventListener('click', closePosterModal);
+        function setDrawerOpen(isOpen) {
+          drawer.classList.toggle('hidden', !isOpen);
+          toggleBtn.setAttribute('aria-expanded', String(isOpen));
+          if (icon) icon.textContent = isOpen ? '✕' : '☰';
+        }
+
+        toggleBtn.addEventListener('click', () => {
+          const isOpen = !drawer.classList.contains('hidden');
+          setDrawerOpen(!isOpen);
+        });
+
+        drawer.addEventListener('click', (e) => {
+          if (e.target.closest('a.mobile-nav-link')) {
+            setDrawerOpen(false);
+          }
+        });
+      }
+
+      function setupGlobalActions() {
+        const navOpenBtn = document.getElementById('navOpenPosterBtn');
+        const mobileOpenBtn = document.getElementById('mobileOpenPosterBtn');
+        const heroViewBtn = document.getElementById('heroViewFullBtn');
+        const heroCardInspectBtn = document.getElementById('heroCardInspectBtn');
+        const heroCopyBtn = document.getElementById('heroCopyCaptionBtn');
+        const recipeOpenBtn = document.getElementById('recipeOpenPosterBtn');
+        const closeModalBtn = document.getElementById('closePosterModalBtn');
+        const modal = document.getElementById('fullPosterModal');
+        const tabsEl = document.getElementById('modalPosterSwitcher');
+        const modalCopyBtn = document.getElementById('modalCopyCaptionBtn');
+
+        if (navOpenBtn) navOpenBtn.addEventListener('click', openFullPosterModal);
+        if (mobileOpenBtn) {
+          mobileOpenBtn.addEventListener('click', () => {
+            document.getElementById('mobileNavDrawer')?.classList.add('hidden');
+            openFullPosterModal();
+          });
+        }
+        if (heroViewBtn) heroViewBtn.addEventListener('click', openFullPosterModal);
+        if (heroCardInspectBtn) heroCardInspectBtn.addEventListener('click', openFullPosterModal);
+        if (closeModalBtn) closeModalBtn.addEventListener('click', closeFullPosterModal);
 
         if (heroCopyBtn) {
           heroCopyBtn.addEventListener('click', () => {
-            copyTextSafe(getSelectedPoster().caption, 'Active poster caption copied!');
+            copyToClipboard(getPosterById(state.activePosterId).caption, 'Caption copied!');
           });
         }
 
-        if (recipeJarBtn) {
-          recipeJarBtn.addEventListener('click', () => {
-            appState.selectedPosterId = 'poster-classic-original';
-            appState.selectedFlavourId = 'classic-original';
-            syncStateUI();
-            openPosterModal();
+        if (modalCopyBtn) {
+          modalCopyBtn.addEventListener('click', () => {
+            copyToClipboard(getPosterById(state.activePosterId).caption, 'Caption copied!');
+          });
+        }
+
+        if (recipeOpenBtn) {
+          recipeOpenBtn.addEventListener('click', () => {
+            state.activePosterId = 'classic-original';
+            syncHeroAndModal();
+            openFullPosterModal();
           });
         }
 
         if (tabsEl) {
           tabsEl.addEventListener('click', (e) => {
-            const tabBtn = e.target.closest('button[data-modal-tab]');
-            if (!tabBtn) return;
-            appState.selectedPosterId = tabBtn.dataset.modalTab;
-            appState.selectedFlavourId = getSelectedPoster().flavourId;
-            syncStateUI();
-            syncModalContent();
-          });
-        }
-
-        if (copyCaptionBtn) {
-          copyCaptionBtn.addEventListener('click', () => {
-            copyTextSafe(getSelectedPoster().caption, 'Instagram caption copied!');
+            const tab = e.target.closest('button[data-modal-tab]');
+            if (!tab) return;
+            state.activePosterId = tab.dataset.modalTab;
+            syncHeroAndModal();
           });
         }
 
         if (modal) {
           modal.addEventListener('click', (e) => {
-            if (e.target === modal) closePosterModal();
+            if (e.target === modal) closeFullPosterModal();
           });
         }
 
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') closePosterModal();
+          if (e.key === 'Escape') closeFullPosterModal();
         });
       }
 
-      function setupScrollReveals() {
-        const items = document.querySelectorAll('.reveal-on-scroll');
-        if (!items.length) return;
+      function setupScrollReveal() {
+        const elements = document.querySelectorAll('.reveal-item');
+        if (!elements.length) return;
 
-        const prefersReduced =
+        const reducedMotion =
           typeof window.matchMedia === 'function' &&
           window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (prefersReduced || typeof IntersectionObserver !== 'function') {
-          items.forEach((el) => el.classList.add('is-visible'));
+        if (reducedMotion || typeof IntersectionObserver !== 'function') {
+          elements.forEach((el) => el.classList.add('is-visible'));
           return;
         }
 
@@ -1323,24 +1432,26 @@
           { threshold: 0.12 }
         );
 
-        items.forEach((el) => observer.observe(el));
+        elements.forEach((el) => observer.observe(el));
       }
 
-      function init() {
-        renderMoodSwitcher();
+      function initApp() {
+        renderHeroSwitcher();
         renderPosterGallery();
-        renderFlavourLineup();
-        renderComparisonTable();
-        setupComparisonFilters();
-        setupModalEvents();
-        setupScrollReveals();
-        syncStateUI();
+        setupPosterFilters();
+        renderFlavourCards();
+        renderNutritionTable();
+        setupNutritionFilters();
+        setupMobileNav();
+        setupGlobalActions();
+        setupScrollReveal();
+        syncHeroAndModal();
       }
 
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
+        document.addEventListener('DOMContentLoaded', initApp);
       } else {
-        init();
+        initApp();
       }
     })();
   </script>
